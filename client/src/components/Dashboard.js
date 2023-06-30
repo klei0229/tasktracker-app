@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TaskEntry from "./TaskEntry";
 import AddTaskModal from "./AddTaskModal";
 import SortArrowContainer from "./SortArrowContainer";
-
+import { fetchURL } from "./data";
 const Dashboard = (props) => {
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [sortingMode, setSortingMode] = useState("none");
@@ -148,7 +148,7 @@ const Dashboard = (props) => {
     try {
       console.log("delete pressed");
       console.log(tasks);
-      const response = await fetch(`http://localhost:3000/tasks/${entry_id}`, {
+      const response = await fetch(`${fetchURL}/api/tasks/${entry_id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -164,7 +164,7 @@ const Dashboard = (props) => {
     }
   };
   const fetchData = async () => {
-    const response = await fetch(`http://localhost:3000/tasks/${currentUser}`, {
+    const response = await fetch(`${fetchURL}/api/tasks/${currentUser}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });
@@ -196,7 +196,7 @@ const Dashboard = (props) => {
         date: input.date,
       };
       const response = await fetch(
-        `http://localhost:3000/tasks/${currentUser}`,
+        `${fetchURL}/api/tasks/${currentUser}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IoIosClose } from "react-icons/io";
-
+import {fetchURL} from "./data"
 const EditTaskModal = (props) => {
   const { setEditModalOpen } = props;
   const { tasks, setTasks } = props;
@@ -24,7 +24,7 @@ const EditTaskModal = (props) => {
         alert("Title cannot be empty");
         return;
     }
-    const response = await fetch(`http://localhost:3000/tasks/${entry_id}`, {
+    const response = await fetch(`${fetchURL}/api/tasks/${entry_id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),

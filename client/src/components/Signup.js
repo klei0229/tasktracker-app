@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { fetchURL } from "./data";
 
 const Signup = (props) => {
+  
+  console.log(fetchURL)
   const { setCurrentUser, setName } = props;
   const [signUpCredentials, setSignUpCredentials] = useState("");
   const signup = async (e) => {
@@ -8,7 +11,7 @@ const Signup = (props) => {
     console.log("signup pressed");
     try {
       const body = { name: signUpCredentials };
-      const response = await fetch("http://localhost:3000/users", {
+      const response = await fetch(`${fetchURL}/api/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),

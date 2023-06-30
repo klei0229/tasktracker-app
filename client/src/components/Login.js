@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { fetchURL } from "./data";
 
 
 const Login = (props) => {
@@ -15,7 +16,7 @@ const Login = (props) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/users/${loginCredentials}`,
+        `${fetchURL}/api/users/${loginCredentials}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

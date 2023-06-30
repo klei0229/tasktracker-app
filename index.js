@@ -3,10 +3,15 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const PORT = process.env.PORT || 3001;
+const path = require("path");
 
 //middleware
 app.use(cors());
 app.use(express.json());
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client/build")));
+}
 
 //USER routes
 
@@ -14,8 +19,19 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
+app.get("/api/users", async (req, res) => {
+  try {
+    console.log('pool', pool)
+    const users = await pool.query("SELECT * FROM task_users");
+    res.json(users);
+  } catch (error) {
+    console.log(error.message);
+    res.json("error");
+  }
+});
+
 //create a new user
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   try {
     console.log("POST");
     const { name } = req.body;
@@ -32,7 +48,7 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.get("/users/:name", async (req, res) => {
+app.get("/api/users/:name", async (req, res) => {
   try {
     const { name } = req.params;
     console.log(name);
@@ -72,7 +88,7 @@ app.get("/users/:name", async (req, res) => {
 // });
 
 //get a todo
-app.get("/tasks/:id", async (req, res) => {
+app.get("/api/tasks/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const entries = await pool.query(
@@ -85,7 +101,7 @@ app.get("/tasks/:id", async (req, res) => {
   }
 });
 //create a todo
-app.post("/tasks/:id", async (req, res) => {
+app.post("/api/tasks/:id", async (req, res) => {
   console.log("post request");
   try {
     console.log(req.params);
@@ -108,7 +124,7 @@ app.post("/tasks/:id", async (req, res) => {
 });
 
 //update
-app.put("/tasks/:id", async (req, res) => {
+app.put("/api/tasks/:id", async (req, res) => {
   console.log("put request");
   try {
     console.log(req.params);
@@ -128,7 +144,7 @@ app.put("/tasks/:id", async (req, res) => {
 });
 
 //delete a todo
-app.delete("/tasks/:id", async (req, res) => {
+app.delete("/api/tasks/:id", async (req, res) => {
   try {
     console.log("delete");
     console.log(req.params);
