@@ -229,7 +229,7 @@ const Dashboard = (props) => {
     setInput(updatedInput);
   };
   return (
-    <div>
+    <div className="dashboard">
       {/* display the tasks */}
 
         <h2>
